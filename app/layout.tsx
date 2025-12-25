@@ -1,6 +1,6 @@
 import "./globals.css";
-import LandingLayout from "../components/LandingLayout";
 import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({
   children,
 }: {
@@ -9,10 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LandingLayout>
-          {children}
-          <Toaster position="top-right" />
-        </LandingLayout>
+        {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

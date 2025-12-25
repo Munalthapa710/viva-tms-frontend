@@ -1,0 +1,152 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import toast from "react-hot-toast";
+
+export default function RegisterPage() {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("username", form.username);
+    formData.append("email", form.email);
+    formData.append("phone", form.phone);
+    formData.append("password", form.password);
+    formData.append("photo", photo);
+
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      toast.success("Registration successful!");
+      router.push("/login");
+    } catch (err) {
+      toast.error(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-100 to-blue-300">
+      <form
+        onSubmit={handleRegister}
+        className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md"
+        encType="multipart/form-data"
+      >
+        <h2 className="text-3xl font-bold text-center mb-8 text-blue-700">
+          Create Account
+        </h2>
+
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          required
+          onChange={handleChange}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          onChange={handleChange}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone Number"
+          required
+          onChange={handleChange}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          onChange={handleChange}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          required
+          onChange={handleChange}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <div className="mb-6">
+  <label className="block text-gray-700 font-medium mb-1">
+    Profile Photo
+  </label>
+  
+  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors">
+    {photo ? (
+      <span className="text-gray-700">{photo.name}</span>
+    ) : (
+      <span className="text-gray-400">Click or drag file to upload</span>
+    )}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setPhoto(e.target.files[0])}
+      className="hidden"
+    />
+  </label>
+</div>
+
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50"
+        >
+          {loading ? "Creating Account..." : "Register"}
+        </button>
+
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
+}
