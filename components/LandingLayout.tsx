@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Link from "next/link";
@@ -11,9 +10,10 @@ import {
   FiInfo,
   FiChevronLeft,
   FiChevronRight,
+  FiBox
 } from "react-icons/fi";
 
-// SidebarLink component
+/* ================= SidebarLink ================= */
 const SidebarLink = ({
   href,
   icon,
@@ -38,7 +38,7 @@ const SidebarLink = ({
   </Link>
 );
 
-// Sidebar component
+/* ================= Sidebar ================= */
 const Sidebar = ({
   collapsed,
   setCollapsed,
@@ -90,6 +90,13 @@ const Sidebar = ({
         color="text-lime-400"
       />
       <SidebarLink
+        href="/inventory"
+        icon={<FiBox />}
+        label="Inventory"
+        collapsed={collapsed}
+        color="text-lime-400"
+      />
+      <SidebarLink
         href="/about"
         icon={<FiInfo />}
         label="About"
@@ -100,26 +107,31 @@ const Sidebar = ({
   </aside>
 );
 
-// LandingLayout component
+/* ================= LandingLayout ================= */
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
   const [username, setUsername] = useState("User");
   const [photo, setPhoto] = useState("/profile.jpg");
+  const [loading, setLoading] = useState(true); // ✅ added
 
   const router = useRouter();
 
-  // Load cookies after client mounts to avoid hydration mismatch
   useEffect(() => {
     const token = Cookies.get("auth_token");
-    if (!token) {
-      router.replace("/login"); // Redirect to login if not authenticated
-    }
-     const savedUsername = Cookies.get("username");
-  const savedPhoto = Cookies.get("photo");
 
-  if (savedUsername) setUsername(savedUsername);
-  if (savedPhoto) setPhoto(savedPhoto);
+    if (!token) {
+      router.replace("/login");
+      return;
+    }
+
+    const savedUsername = Cookies.get("username");
+    const savedPhoto = Cookies.get("photo");
+
+    if (savedUsername) setUsername(savedUsername);
+    if (savedPhoto) setPhoto(savedPhoto);
+
+    setLoading(false); // ✅ auth check done
   }, [router]);
 
   const handleLogout = () => {
@@ -129,13 +141,27 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
     router.replace("/login");
   };
 
+  /* ================= Loading Spinner ================= */
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-700 rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen font-sans">
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       <div className="flex-1 flex flex-col">
         <header className="sticky top-0 z-50 bg-white/30 backdrop-blur-md shadow-md py-4 px-6 flex justify-between items-center">
-          <h2 className="text-gray-600 font-medium"> Welcome, {username}!</h2>
+          <h2 className="text-gray-600 font-medium">
+            Welcome, {username}!
+          </h2>
 
           <div className="flex items-center gap-4">
             <button className="flex items-center justify-center w-12 h-12 bg-white/80 backdrop-blur-md shadow rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors">
@@ -151,10 +177,10 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
               />
 
               {open && (
-                <div className="absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border">
+                <div className="absolute right-0 mt-2 w-17 bg-white rounded-lg shadow-lg border">
                   <button
                     onClick={handleLogout}
-                    className="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100 rounded-lg"
+                    className="w-full px-2 py-2 text-left text-red-600 hover:bg-gray-100 rounded-lg"
                   >
                     Logout
                   </button>

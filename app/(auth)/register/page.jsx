@@ -56,97 +56,107 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-100 to-blue-300">
-      <form
-        onSubmit={handleRegister}
-        className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md"
-        encType="multipart/form-data"
-      >
-        <h2 className="text-3xl font-bold text-center mb-8 text-blue-700">
-          Create Account
-        </h2>
-
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          required
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          required
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          required
-          onChange={handleChange}
-          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <div className="mb-6">
-  <label className="block text-gray-700 font-medium mb-1">
-    Profile Photo
-  </label>
-  
-  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors">
-    {photo ? (
-      <span className="text-gray-700">{photo.name}</span>
-    ) : (
-      <span className="text-gray-400">Click or drag file to upload</span>
-    )}
-    <input
-      type="file"
-      accept="image/*"
-      onChange={(e) => setPhoto(e.target.files[0])}
-      className="hidden"
-    />
-  </label>
-</div>
-
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50"
+    <div className="min-h-screen flex items-center justify-center bg-blue-100">
+      <div className="flex flex-col md:flex-row w-full max-w-5xl shadow-2xl rounded-2xl overflow-hidden">
+        {/* Form - 60% */}
+        <form
+          onSubmit={handleRegister}
+          className="bg-white p-10 md:w-3/5 flex flex-col justify-center"
+          encType="multipart/form-data"
         >
-          {loading ? "Creating Account..." : "Register"}
-        </button>
+          <h2 className="text-3xl font-bold text-center mb-8 text-blue-700">
+            Create Account
+          </h2>
 
-        <p className="mt-6 text-center text-gray-600">
-          Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 font-semibold hover:underline">
-            Sign In
-          </Link>
-        </p>
-      </form>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            required
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            required
+            onChange={handleChange}
+            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <div className="mb-6">
+            <label className="block text-gray-700 font-medium mb-1">
+              Profile Photo
+            </label>
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors">
+              {photo ? (
+                <span className="text-gray-700">{photo.name}</span>
+              ) : (
+                <span className="text-gray-400">Click or drag file to upload</span>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setPhoto(e.target.files[0])}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50"
+          >
+            {loading ? "Creating Account..." : "Register"}
+          </button>
+
+          <p className="mt-6 text-center text-gray-600">
+            Already have an account?{" "}
+            <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+              Sign In
+            </Link>
+          </p>
+        </form>
+
+        {/* Image - 40% */}
+        <div className="hidden md:block md:w-2/5">
+          <img
+            src="/f1.jpg"
+            alt="Register Image"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
     </div>
   );
 }

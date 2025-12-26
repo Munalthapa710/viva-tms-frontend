@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
-import toast from "react-hot-toast";
+import toast,{ Toaster } from "react-hot-toast";
 
 /* ================= TYPES ================= */
 interface Employee {
@@ -127,6 +127,8 @@ export default function EmployeePage() {
 
   /* ================= UI (UNCHANGED) ================= */
   return (
+    <>
+       <Toaster position="top-right" /> 
     <div className="p-6">
       {successMsg && (
         <div className="mb-4 px-4 py-2 bg-green-100 text-green-700 rounded-xl">
@@ -302,5 +304,7 @@ export default function EmployeePage() {
         </div>
       </div>
     </div>
+    
+    </>
   );
 }
