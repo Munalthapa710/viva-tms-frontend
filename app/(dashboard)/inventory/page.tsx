@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiCheck, FiX } from "react-icons/fi";
-import toast, { Toaster } from "react-hot-toast"; 
+import toast, { Toaster } from "react-hot-toast";
 
 interface Group {
   id: number;
@@ -61,7 +61,7 @@ export default function InventoryPage() {
     setGroups((prev) => [...prev, newGroup]);
     setGroupName("");
 
-    toast.success("Group added"); 
+    toast.success("Group added");
   };
 
   /* ================= EDIT GROUP ================= */
@@ -81,7 +81,7 @@ export default function InventoryPage() {
     }
 
     setEditingGroupId(null);
-    toast.success("Group updated"); 
+    toast.success("Group updated");
   };
 
   /* ================= DELETE GROUP ================= */
@@ -100,7 +100,7 @@ export default function InventoryPage() {
       setEditingItemId(null);
     }
 
-    toast.success("Group deleted"); 
+    toast.success("Group deleted");
   };
 
   /* ================= ADD ITEM ================= */
@@ -126,7 +126,7 @@ export default function InventoryPage() {
     setItemName("");
     setQuantity(1);
 
-    toast.success("Item added"); 
+    toast.success("Item added");
   };
 
   /* ================= EDIT ITEM ================= */
@@ -149,7 +149,7 @@ export default function InventoryPage() {
     );
 
     setEditingItemId(null);
-    toast.success("Item updated"); 
+    toast.success("Item updated");
   };
 
   /* ================= DELETE ITEM ================= */
@@ -161,12 +161,12 @@ export default function InventoryPage() {
     });
 
     setItems((prev) => prev.filter((i) => i.id !== id));
-    toast.success("Item deleted"); 
+    toast.success("Item deleted");
   };
 
   return (
     <>
-      <Toaster position="top-right" /> 
+      <Toaster position="top-right" />
       <div className="p-6 grid grid-cols-12 gap-6">
         {/* GROUPS */}
         <div className="col-span-4 bg-white rounded-2xl shadow p-5">
@@ -215,18 +215,26 @@ export default function InventoryPage() {
                 <div className="flex gap-2">
                   {editingGroupId === g.id ? (
                     <>
-                      <FiCheck onClick={() => saveEditGroup(g.id)} />
-                      <FiX onClick={() => setEditingGroupId(null)} />
+                      <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                        <FiCheck onClick={() => saveEditGroup(g.id)} />
+                      </div>
+                      <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                        <FiX onClick={() => setEditingGroupId(null)} />
+                      </div>
                     </>
                   ) : (
                     <>
-                      <FiEdit2
-                        onClick={() => {
-                          setEditingGroupId(g.id);
-                          setEditingGroupName(g.name);
-                        }}
-                      />
-                      <FiTrash2 onClick={() => deleteGroup(g.id)} />
+                      <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                        <FiEdit2
+                          onClick={() => {
+                            setEditingGroupId(g.id);
+                            setEditingGroupName(g.name);
+                          }}
+                        />
+                      </div>
+                      <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                        <FiTrash2 onClick={() => deleteGroup(g.id)} />
+                      </div>
                     </>
                   )}
                 </div>
@@ -285,7 +293,9 @@ export default function InventoryPage() {
                           <input
                             type="number"
                             value={editingItemQty}
-                            onChange={(e) => setEditingItemQty(Math.max(0, +e.target.value))}
+                            onChange={(e) =>
+                              setEditingItemQty(Math.max(0, +e.target.value))
+                            }
                             className="border px-2 rounded w-20"
                           />
                         ) : (
@@ -297,19 +307,27 @@ export default function InventoryPage() {
                         <div className="flex gap-2">
                           {editingItemId === i.id ? (
                             <>
-                              <FiCheck onClick={() => saveEditItem(i.id)} />
-                              <FiX onClick={() => setEditingItemId(null)} />
+                              <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                                <FiCheck onClick={() => saveEditItem(i.id)} />
+                              </div>
+                              <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                                <FiX onClick={() => setEditingItemId(null)} />
+                              </div>
                             </>
                           ) : (
                             <>
-                              <FiEdit2
-                                onClick={() => {
-                                  setEditingItemId(i.id);
-                                  setEditingItemName(i.name);
-                                  setEditingItemQty(i.quantity);
-                                }}
-                              />
-                              <FiTrash2 onClick={() => deleteItem(i.id)} />
+                              <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                                <FiEdit2
+                                  onClick={() => {
+                                    setEditingItemId(i.id);
+                                    setEditingItemName(i.name);
+                                    setEditingItemQty(i.quantity);
+                                  }}
+                                />
+                              </div>
+                              <div className="border rounded p-1 cursor-pointer hover:bg-gray-200">
+                                <FiTrash2 onClick={() => deleteItem(i.id)} />
+                              </div>
                             </>
                           )}
                         </div>

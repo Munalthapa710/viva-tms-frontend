@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -15,6 +16,16 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   });
+
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
+  const toggleShowPassword = (field) => {
+    setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+  };
+
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -95,23 +106,42 @@ export default function RegisterPage() {
             className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            onChange={handleChange}
-            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="relative w-full mb-4">
+            <input
+              type={showPassword.password ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              required
+              value={form.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+              onClick={() => toggleShowPassword("password")}
+            >
+              {showPassword.password ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+            </div>
+          </div>
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            required
-            onChange={handleChange}
-            className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+
+          <div className="relative w-full mb-4">
+            <input
+              type={showPassword.confirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              required
+              value={form.confirmPassword}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+              onClick={() => toggleShowPassword("confirmPassword")}
+            >
+              {showPassword.confirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+            </div>
+          </div>
 
           <div className="mb-6">
             <label className="block text-gray-700 font-medium mb-1">
