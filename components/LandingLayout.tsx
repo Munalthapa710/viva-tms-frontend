@@ -10,7 +10,8 @@ import {
   FiInfo,
   FiChevronLeft,
   FiChevronRight,
-  FiBox
+  FiBox,
+  FiClipboard
 } from "react-icons/fi";
 
 /* ================= SidebarLink ================= */
@@ -88,6 +89,13 @@ const Sidebar = ({
         label="Employee"
         collapsed={collapsed}
         color="text-lime-400"
+      />
+      <SidebarLink
+        href="/assign"
+        icon={<FiClipboard />}
+        label="Assign-task"
+        collapsed={collapsed}
+        color="text-blue-400"
       />
       <SidebarLink
         href="/inventory"

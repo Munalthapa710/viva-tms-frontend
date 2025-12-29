@@ -167,9 +167,9 @@ export default function InventoryPage() {
   return (
     <>
       <Toaster position="top-right" />
-      <div className="p-6 grid grid-cols-12 gap-6">
+      <div className="p-6 grid grid-cols-12 gap-6 ">
         {/* GROUPS */}
-        <div className="col-span-4 bg-white rounded-2xl shadow p-5">
+        <div className="col-span-4 bg-white rounded-2xl shadow p-5 ">
           <h2 className="text-xl font-semibold mb-4">Inventory Groups</h2>
 
           <div className="flex gap-2 mb-4">
