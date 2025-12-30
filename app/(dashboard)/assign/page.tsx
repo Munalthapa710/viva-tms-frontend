@@ -29,46 +29,53 @@ export default function AssignPage() {
   const [search, setSearch] = useState("");
   const [showDrawer, setShowDrawer] = useState(false);
   const [sentEmails, setSentEmails] = useState<number[]>([]);
-const [sentTasks, setSentTasks] = useState<number[]>([]);
+  const [sentTasks, setSentTasks] = useState<number[]>([]);
 
-const handleSendEmail = async (task: Task) => {
-  const employee = employees.find((e) => e.id === task.employeeId);
-  if (!employee) return;
+  const handleSendEmail = async (task: Task) => {
+    const employee = employees.find((e) => e.id === task.employeeId);
+    if (!employee) return;
 
-  try {
-    const res = await fetch("http://localhost:5000/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        taskId: task.id,
-        employeeName: employee.name,
-        employeeEmail: employee.email,
-        taskTitle: task.title,
-        dueDate: task.dueDate,
-      }),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          taskId: task.id,
+          employeeName: employee.name,
+          employeeEmail: employee.email,
+          taskTitle: task.title,
+          dueDate: task.dueDate,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      toast.success(data.message);
-      // Update DB email status
-      await fetch(`http://localhost:5000/tasks/${task.id}/email-sent`, { method: "PATCH" });
-      setSentTasks(prev => [...prev, task.id]); // mark as sent in frontend
-    } else {
-      toast.error(data.message);
+      if (res.ok) {
+        toast.success(data.message);
+        // Update DB email status
+        await fetch(`http://localhost:5000/tasks/${task.id}/email-sent`, {
+          method: "PATCH",
+        });
+        setSentTasks((prev) => [...prev, task.id]); // mark as sent in frontend
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to send email");
     }
-  } catch (err) {
-    toast.error("Failed to send email");
-  }
-};
+  };
 
+ const [newTask, setNewTask] = useState<{
+  id?: number;
+  title: string;
+  employeeId: string;
+  dueDate: string;
+}>({
+  title: "",
+  employeeId: "",
+  dueDate: "",
+});
 
-  const [newTask, setNewTask] = useState({
-    title: "",
-    employeeId: "",
-    dueDate: "",
-  });
 
   /* ================= FETCH EMPLOYEES ================= */
   useEffect(() => {
@@ -79,18 +86,19 @@ const handleSendEmail = async (task: Task) => {
   }, []);
 
   // ================= FETCH TASKS FROM BACKEND =================
-useEffect(() => {
-  fetch("http://localhost:5000/tasks")
-    .then(res => res.json())
-    .then((data) => {
-      setTasks(data);
-      // Also mark sent tasks in frontend
-      const sentIds = data.filter((t: any) => t.emailSent).map((t: any) => t.id);
-      setSentTasks(sentIds);
-    })
-    .catch(console.error);
-}, []);
-
+  useEffect(() => {
+    fetch("http://localhost:5000/tasks")
+      .then((res) => res.json())
+      .then((data) => {
+        setTasks(data);
+        // Also mark sent tasks in frontend
+        const sentIds = data
+          .filter((t: any) => t.emailSent)
+          .map((t: any) => t.id);
+        setSentTasks(sentIds);
+      })
+      .catch(console.error);
+  }, []);
 
   /* ================= FILTER EMPLOYEE ================= */
   const filteredEmployees = employees.filter((emp) =>
@@ -112,32 +120,95 @@ useEffect(() => {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/tasks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: newTask.title,
-        employeeId: Number(newTask.employeeId),
-        dueDate: newTask.dueDate,
-      }),
-    });
+    // ✅ UPDATE MODE
+    if (newTask.id) {
+      const res = await fetch(
+        `http://localhost:5000/tasks/${newTask.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: newTask.title,
+            employeeId: Number(newTask.employeeId),
+            dueDate: newTask.dueDate,
+          }),
+        }
+      );
 
-    const data = await res.json();
-    if (res.ok) {
-      setTasks(prev => [...prev, data]); // update frontend with DB task
-      toast.success("Task assigned successfully!");
-    } else {
-      toast.error("Failed to assign task");
+      if (!res.ok) throw new Error();
+
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === newTask.id
+            ? { ...task, ...newTask, employeeId: Number(newTask.employeeId) }
+            : task
+        )
+      );
+
+      toast.success("Task updated successfully!");
     }
-  } catch (err) {
-    toast.error("Failed to assign task");
-  }
 
-  setNewTask({ title: "", employeeId: "", dueDate: "" });
-  setShowDrawer(false);
-  setSearch("");
+    // ✅ CREATE MODE
+    else {
+      const res = await fetch("http://localhost:5000/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newTask.title,
+          employeeId: Number(newTask.employeeId),
+          dueDate: newTask.dueDate,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error();
+
+      setTasks((prev) => [...prev, data]);
+      toast.success("Task assigned successfully!");
+    }
+
+    // reset
+    setNewTask({ title: "", employeeId: "", dueDate: "" });
+    setShowDrawer(false);
+    setSearch("");
+  } catch (err) {
+    toast.error("Something went wrong");
+  }
 };
 
+
+const handleEditClick = (task: Task) => {
+  setNewTask({
+    id: task.id,
+    title: task.title,
+    employeeId: task.employeeId.toString(),
+    dueDate: task.dueDate,
+  });
+
+  setShowDrawer(true);
+};
+
+
+  const handleDeleteClick = async (taskId: number) => {
+    if (!confirm("Are you sure you want to delete this task?")) return;
+    try {
+      const res = await fetch(`http://localhost:5000/tasks/${taskId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message);
+        setTasks((prev) => prev.filter((task) => task.id !== taskId));
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to delete task");
+    }
+  };
 
   return (
     <>
@@ -188,6 +259,7 @@ useEffect(() => {
                 <th className="px-4 py-3 text-left border-b">Task</th>
                 <th className="px-4 py-3 text-left border-b">Due Date</th>
                 <th className="px-4 py-3 text-left border-b">Send Mail</th>
+                <th className="px-4 py-3 text-left border-b">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -219,6 +291,22 @@ useEffect(() => {
                       >
                         {sentTasks.includes(task.id) ? "Sent" : "Send"}
                       </button>
+                    </td>
+                    <td className="px-4 py-3 text-left border-b">
+                      <div className="flex items-center gap-2">
+                        {/* <button
+                          onClick={() => handleEditClick(task)}
+                          className="px-3 py-1 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
+                        >
+                          Edit
+                        </button> */}
+                        <button
+                          onClick={() => handleDeleteClick(task.id)}
+                          className="px-3 py-1 rounded-xl bg-red-600 text-white hover:bg-red-700"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
