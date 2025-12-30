@@ -83,6 +83,7 @@ const Sidebar = ({
         collapsed={collapsed}
         color="text-rose-400"
       />
+      
       <SidebarLink
         href="/employee"
         icon={<FiUsers />}
