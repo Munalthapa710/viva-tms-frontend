@@ -30,7 +30,7 @@ export default function InventoryPage() {
   const [editingItemId, setEditingItemId] = useState<number | null>(null);
   const [editingItemName, setEditingItemName] = useState("");
   const [editingItemQty, setEditingItemQty] = useState(1);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com";
   /* ================= FETCH GROUPS ================= */
   useEffect(() => {
     fetch(`${BASE_URL}/inventory/groups`)

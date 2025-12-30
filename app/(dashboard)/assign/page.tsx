@@ -30,7 +30,7 @@ export default function AssignPage() {
   const [showDrawer, setShowDrawer] = useState(false);
   const [sentEmails, setSentEmails] = useState<number[]>([]);
   const [sentTasks, setSentTasks] = useState<number[]>([]);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
   const handleSendEmail = async (task: Task) => {
     const employee = employees.find((e) => e.id === task.employeeId);
     if (!employee) return;

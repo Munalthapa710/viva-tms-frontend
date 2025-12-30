@@ -34,7 +34,7 @@ const EMPLOYEE_API = "http://localhost:5000/employees";
 const TASK_API = "http://localhost:5000/tasks";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
 export default function HomePage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [chartData, setChartData] = useState<

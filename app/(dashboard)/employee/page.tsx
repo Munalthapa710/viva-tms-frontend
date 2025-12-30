@@ -22,7 +22,7 @@ export default function EmployeePage() {
   const [filterDep, setFilterDep] = useState("");
   const [showDrawer, setShowDrawer] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
   const [newEmployee, setNewEmployee] = useState<Omit<Employee, "id">>({
     name: "",
     department: "",
