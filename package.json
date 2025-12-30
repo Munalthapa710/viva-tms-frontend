@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build --no-turbo",
-    "start": "next start",
-    "lint": "eslint"
-  },
+  "dev": "next dev",
+  "build": "next build && next export",
+  "start": "next start",
+  "lint": "eslint"
+},
   "dependencies": {
     "js-cookie": "^3.0.5",
     "next": "16.1.0",
