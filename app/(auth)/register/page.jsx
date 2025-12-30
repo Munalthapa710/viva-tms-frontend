@@ -47,7 +47,7 @@ export default function RegisterPage() {
     formData.append("phone", form.phone);
     formData.append("password", form.password);
     formData.append("photo", photo);
-
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     setLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/register`, {
