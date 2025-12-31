@@ -30,10 +30,10 @@ export default function InventoryPage() {
   const [editingItemId, setEditingItemId] = useState<number | null>(null);
   const [editingItemName, setEditingItemName] = useState("");
   const [editingItemQty, setEditingItemQty] = useState(1);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com";
+
   /* ================= FETCH GROUPS ================= */
   useEffect(() => {
-    fetch(`${BASE_URL}/inventory/groups`)
+    fetch("http://localhost:5000/inventory/groups")
       .then((res) => res.json())
       .then((data) => setGroups(data));
   }, []);
@@ -42,7 +42,7 @@ export default function InventoryPage() {
   useEffect(() => {
     if (!selectedGroup) return;
 
-    fetch(`${BASE_URL}/inventory/items/${selectedGroup.id}`)
+    fetch(`http://localhost:5000/inventory/items/${selectedGroup.id}`)
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, [selectedGroup]);
@@ -51,7 +51,7 @@ export default function InventoryPage() {
   const addGroup = async () => {
     if (!groupName.trim()) return;
 
-    const res = await fetch(`${BASE_URL}inventory/groups`, {
+    const res = await fetch("http://localhost:5000/inventory/groups", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: groupName }),
@@ -66,7 +66,7 @@ export default function InventoryPage() {
 
   /* ================= EDIT GROUP ================= */
   const saveEditGroup = async (id: number) => {
-    await fetch(`${BASE_URL}inventory/groups/${id}`, {
+    await fetch(`http://localhost:5000/inventory/groups/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: editingGroupName }),
@@ -88,7 +88,7 @@ export default function InventoryPage() {
   const deleteGroup = async (id: number) => {
     if (!confirm("Delete this group?")) return;
 
-    await fetch(`${BASE_URL}/inventory/groups/${id}`, {
+    await fetch(`http://localhost:5000/inventory/groups/${id}`, {
       method: "DELETE",
     });
 
@@ -107,7 +107,7 @@ export default function InventoryPage() {
   const addItem = async () => {
     if (!itemName || !selectedGroup) return;
 
-    await fetch(`${BASE_URL}/inventory/groups/items`, {
+    await fetch("http://localhost:5000/inventory/items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function InventoryPage() {
     });
 
     const res = await fetch(
-      `${BASE_URL}/inventory/items/${selectedGroup.id}`
+      `http://localhost:5000/inventory/items/${selectedGroup.id}`
     );
     const data = await res.json();
     setItems(data);
@@ -131,7 +131,7 @@ export default function InventoryPage() {
 
   /* ================= EDIT ITEM ================= */
   const saveEditItem = async (id: number) => {
-    await fetch(`${BASE_URL}/inventory/items/${id}`, {
+    await fetch(`http://localhost:5000/inventory/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -156,7 +156,7 @@ export default function InventoryPage() {
   const deleteItem = async (id: number) => {
     if (!confirm("Delete this item?")) return;
 
-    await fetch(`${BASE_URL}/inventory/items/${id}`, {
+    await fetch(`http://localhost:5000/inventory/items/${id}`, {
       method: "DELETE",
     });
 

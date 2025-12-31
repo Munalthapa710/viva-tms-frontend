@@ -47,10 +47,10 @@ export default function RegisterPage() {
     formData.append("phone", form.phone);
     formData.append("password", form.password);
     formData.append("photo", photo);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
+
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/register`, {
+      const res = await fetch("http://localhost:5000/register", {
         method: "POST",
         body: formData,
       });

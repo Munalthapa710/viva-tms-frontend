@@ -13,7 +13,7 @@ interface Employee {
 }
 
 /* ================= CONFIG ================= */
-//const API_URL = "http://localhost:5000/employees";
+const API_URL = "http://localhost:5000/employees";
 
 export default function EmployeePage() {
   /* ================= STATE ================= */
@@ -22,7 +22,7 @@ export default function EmployeePage() {
   const [filterDep, setFilterDep] = useState("");
   const [showDrawer, setShowDrawer] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
+
   const [newEmployee, setNewEmployee] = useState<Omit<Employee, "id">>({
     name: "",
     department: "",
@@ -34,7 +34,7 @@ export default function EmployeePage() {
 
   /* ================= READ ================= */
   useEffect(() => {
-    fetch(`${BASE_URL}/employees`)
+    fetch(API_URL)
       .then((res) => res.json())
       .then((data: Employee[]) => setEmployees(data))
       .catch((err) => console.error(err));
@@ -61,7 +61,7 @@ export default function EmployeePage() {
 
     if (editingId !== null) {
       // UPDATE
-      await fetch(`${`${BASE_URL}/employees`}/${editingId}`, {
+      await fetch(`${API_URL}/${editingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEmployee),
@@ -76,7 +76,7 @@ export default function EmployeePage() {
       toast.success("Employee updated successfully  ");
     } else {
       // ADD
-      const res = await fetch(`${BASE_URL}/employees`, {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEmployee),
@@ -107,7 +107,7 @@ export default function EmployeePage() {
   };
   const handleDelete = async (id: number) => {
     try {
-      await fetch(`${`${BASE_URL}/employees`}/${id}`, {
+      await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
 

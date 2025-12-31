@@ -21,7 +21,7 @@ interface Task {
 }
 
 /* ================= CONFIG ================= */
-//const EMPLOYEE_API = "http://localhost:5000/employees";
+const EMPLOYEE_API = "http://localhost:5000/employees";
 
 export default function AssignPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -30,13 +30,13 @@ export default function AssignPage() {
   const [showDrawer, setShowDrawer] = useState(false);
   const [sentEmails, setSentEmails] = useState<number[]>([]);
   const [sentTasks, setSentTasks] = useState<number[]>([]);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
+
   const handleSendEmail = async (task: Task) => {
     const employee = employees.find((e) => e.id === task.employeeId);
     if (!employee) return;
 
     try {
-      const res = await fetch(`${BASE_URL}/send-email`, {
+      const res = await fetch("http://localhost:5000/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,7 +53,7 @@ export default function AssignPage() {
       if (res.ok) {
         toast.success(data.message);
         // Update DB email status
-        await fetch(`${BASE_URL}/tasks/${task.id}/email-sent`, {
+        await fetch(`http://localhost:5000/tasks/${task.id}/email-sent`, {
           method: "PATCH",
         });
         setSentTasks((prev) => [...prev, task.id]); // mark as sent in frontend
@@ -79,7 +79,7 @@ export default function AssignPage() {
 
   /* ================= FETCH EMPLOYEES ================= */
   useEffect(() => {
-    fetch(`${BASE_URL}/employees`)
+    fetch(EMPLOYEE_API)
       .then((res) => res.json())
       .then(setEmployees)
       .catch(console.error);
@@ -87,7 +87,7 @@ export default function AssignPage() {
 
   // ================= FETCH TASKS FROM BACKEND =================
   useEffect(() => {
-    fetch(`${BASE_URL}/tasks`)
+    fetch("http://localhost:5000/tasks")
       .then((res) => res.json())
       .then((data) => {
         setTasks(data);
@@ -123,7 +123,7 @@ export default function AssignPage() {
     // ✅ UPDATE MODE
     if (newTask.id) {
       const res = await fetch(
-        `${BASE_URL}/tasks/${newTask.id}`,
+        `http://localhost:5000/tasks/${newTask.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -150,7 +150,7 @@ export default function AssignPage() {
 
     // ✅ CREATE MODE
     else {
-      const res = await fetch(`${BASE_URL}/tasks`, {
+      const res = await fetch("http://localhost:5000/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -193,7 +193,7 @@ const handleEditClick = (task: Task) => {
   const handleDeleteClick = async (taskId: number) => {
     if (!confirm("Are you sure you want to delete this task?")) return;
     try {
-      const res = await fetch(`${BASE_URL}/tasks/${taskId}`, {
+      const res = await fetch(`http://localhost:5000/tasks/${taskId}`, {
         method: "DELETE",
       });
 

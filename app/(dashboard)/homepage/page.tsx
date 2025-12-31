@@ -34,7 +34,7 @@ const EMPLOYEE_API = "http://localhost:5000/employees";
 const TASK_API = "http://localhost:5000/tasks";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://viva-tms-backend.onrender.com/";
+
 export default function HomePage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [chartData, setChartData] = useState<
@@ -45,7 +45,7 @@ export default function HomePage() {
 
   /* ================= FETCH EMPLOYEES ================= */
   useEffect(() => {
-    fetch(`${BASE_URL}/employees`)
+    fetch(EMPLOYEE_API)
       .then((res) => res.json())
       .then((data: Employee[]) => {
         setEmployees(data);
@@ -70,7 +70,7 @@ export default function HomePage() {
 
   /* ================= FETCH TASKS ================= */
   useEffect(() => {
-    fetch(`${BASE_URL}/tasks`)
+    fetch(TASK_API)
       .then((res) => res.json())
       .then((data: Task[]) => setTasks(data))
       .catch((err) => console.error("Failed to fetch tasks", err));
