@@ -11,7 +11,8 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiBox,
-  FiClipboard
+  FiClipboard,
+  FiSquare
 } from "react-icons/fi";
 
 /* ================= SidebarLink ================= */
@@ -97,6 +98,13 @@ const Sidebar = ({
         label="Assign-task"
         collapsed={collapsed}
         color="text-blue-400"
+      />
+      <SidebarLink
+        href="/worktodo"
+        icon={<FiSquare />}
+        label="Worktodo"
+        collapsed={collapsed}
+        color="text-gray-400"
       />
       <SidebarLink
         href="/inventory"

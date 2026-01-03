@@ -4,7 +4,6 @@ import { FiSearch } from "react-icons/fi";
 import toast, { Toaster } from "react-hot-toast";
 import * as XLSX from "xlsx";
 import Pagination from "@/components/Pagination";
-import { v4 as uuidv4 } from "uuid";
 
 /* ================= TYPES ================= */
 interface Employee {
@@ -38,7 +37,6 @@ export default function EmployeePage() {
 
   const [editingId, setEditingId] = useState<number | null>(null);
 
-    
   /* ================= READ ================= */
   useEffect(() => {
     fetch(API_URL)
@@ -95,8 +93,6 @@ export default function EmployeePage() {
   };
 
   const handleSubmit = async () => {
-  
-
     // BULK IMPORT MODE
     if (importedEmployees.length > 0) {
       try {
@@ -125,7 +121,7 @@ export default function EmployeePage() {
         return;
       }
     }
-      // Validate fields
+    // Validate fields
     if (
       !newEmployee.name ||
       !newEmployee.department ||
@@ -144,18 +140,15 @@ export default function EmployeePage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newEmployee),
         });
-        
 
         // Update employees state
         setEmployees((prev) =>
-  prev.map((emp) =>
-    String(emp.id) === String(editingId)
-      ? { ...emp, ...newEmployee }
-      : emp
-  )
-);
-
-
+          prev.map((emp) =>
+            String(emp.id) === String(editingId)
+              ? { ...emp, ...newEmployee }
+              : emp
+          )
+        );
 
         toast.success("Employee updated successfully");
         setEditingId(null);
@@ -295,7 +288,7 @@ export default function EmployeePage() {
               });
               setShowDrawer(true);
             }}
-            className="bg-gray-600 hover:bg-gray-700 text-white rounded-2xl px-4 py-2 ml-218"
+            className="bg-gray-600 hover:bg-gray-700 text-white rounded-2xl px-4 py-2 ml-263"
           >
             Add Employee
           </button>
