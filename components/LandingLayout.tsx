@@ -113,6 +113,8 @@ const Sidebar = ({
         collapsed={collapsed}
         color="text-lime-400"
       />
+
+      
       <SidebarLink
         href="/about"
         icon={<FiInfo />}

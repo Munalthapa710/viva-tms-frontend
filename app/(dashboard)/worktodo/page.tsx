@@ -87,14 +87,14 @@ export default function Page() {
         {/* FORM */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <input
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded-2xl "
             placeholder="Work title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
 
           <select
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded-2xl"
             value={priority}
             onChange={(e) => setPriority(e.target.value as Priority)}
           >
@@ -106,7 +106,7 @@ export default function Page() {
 
           <input
             type="date"
-            className="border px-3 py-2 rounded"
+            className="border px-3 py-2 rounded-2xl"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
           />
@@ -114,8 +114,8 @@ export default function Page() {
           <button
             onClick={submitTodo}
             className={`${
-              editId ? "bg-orange-600" : "bg-blue-600"
-            } text-white rounded`}
+              editId ? "bg-green-500" : "bg-gray-500"
+            } text-white  rounded-2xl`}
           >
             {editId ? "Update" : "Add"}
           </button>
@@ -126,7 +126,7 @@ export default function Page() {
           {todos.map((t) => (
             <div
               key={t.id}
-              className="flex justify-between items-center border p-4 rounded"
+              className="flex justify-between items-center border p-4 rounded-2xl  hover:bg-gray-300"
             >
               <div>
                 <p className="font-medium">{t.title}</p>
