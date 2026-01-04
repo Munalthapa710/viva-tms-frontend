@@ -288,7 +288,7 @@ export default function EmployeePage() {
               });
               setShowDrawer(true);
             }}
-            className="bg-gray-600 hover:bg-gray-700 text-white rounded-2xl px-4 py-2 ml-263"
+            className="bg-gray-600 hover:bg-gray-700 text-white rounded-2xl px-4 py-2 ml-217"
           >
             Add Employee
           </button>
