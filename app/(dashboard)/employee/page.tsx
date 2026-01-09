@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import * as XLSX from "xlsx";
 import Pagination from "@/components/Pagination";
 
-/* ================= TYPES ================= */
+/* TYPES */
 interface Employee {
   id: number;
   name: string;
@@ -14,11 +14,11 @@ interface Employee {
   phone: string;
 }
 
-/* ================= CONFIG ================= */
+/* CONFIG */
 const API_URL = "http://localhost:5000/employees";
 
 export default function EmployeePage() {
-  /* ================= STATE ================= */
+  /* STATE */
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [search, setSearch] = useState("");
   const [filterDep, setFilterDep] = useState("");
@@ -37,7 +37,7 @@ export default function EmployeePage() {
 
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  /* ================= READ ================= */
+  /* READ */
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -45,7 +45,7 @@ export default function EmployeePage() {
       .catch((err) => console.error(err));
   }, []);
 
-  /* ================= FILTER ================= */
+  /* FILTER */
 
   const filteredEmployees = employees.filter(
     (emp) =>
@@ -71,8 +71,8 @@ export default function EmployeePage() {
     setCurrentPage(page);
   };
 
-  /* ================= ADD / UPDATE ================= */
-  /* ================== HANDLE EDIT / ADD ================== */
+  /* ADD / UPDATE */
+  /* =HANDLE EDIT / ADD =*/
   const openDrawerForAdd = () => {
     setEditingId(null);
     setImportedEmployees([]);
@@ -197,7 +197,7 @@ export default function EmployeePage() {
     }
   };
 
-  /* ================= Handle drop csv or excel  ================= */
+  /* Handle drop csv or excel  */
   const handleFileUpload = async (file: File) => {
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
@@ -241,7 +241,7 @@ export default function EmployeePage() {
     setImportedEmployees((prev) => prev.filter((_, i) => i !== index));
   };
 
-  /* ================= UI (UNCHANGED) ================= */
+  /* UI (UNCHANGED) */
   return (
     <>
       <Toaster position="top-right" />

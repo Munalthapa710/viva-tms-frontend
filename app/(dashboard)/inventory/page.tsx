@@ -31,14 +31,14 @@ export default function InventoryPage() {
   const [editingItemName, setEditingItemName] = useState("");
   const [editingItemQty, setEditingItemQty] = useState(1);
 
-  /* ================= FETCH GROUPS ================= */
+  /* FETCH GROUPS */
   useEffect(() => {
     fetch("http://localhost:5000/inventory/groups")
       .then((res) => res.json())
       .then((data) => setGroups(data));
   }, []);
 
-  /* ================= FETCH ITEMS ================= */
+  /* FETCH ITEMS */
   useEffect(() => {
     if (!selectedGroup) return;
 
@@ -47,7 +47,7 @@ export default function InventoryPage() {
       .then((data) => setItems(data));
   }, [selectedGroup]);
 
-  /* ================= ADD GROUP ================= */
+  /* ADD GROUP */
   const addGroup = async () => {
     if (!groupName.trim()) return;
 
@@ -64,7 +64,7 @@ export default function InventoryPage() {
     toast.success("Group added");
   };
 
-  /* ================= EDIT GROUP ================= */
+  /* EDIT GROUP */
   const saveEditGroup = async (id: number) => {
     await fetch(`http://localhost:5000/inventory/groups/${id}`, {
       method: "PUT",
@@ -84,7 +84,7 @@ export default function InventoryPage() {
     toast.success("Group updated");
   };
 
-  /* ================= DELETE GROUP ================= */
+  /* DELETE GROUP */
   const deleteGroup = async (id: number) => {
     if (!confirm("Delete this group?")) return;
 
@@ -103,7 +103,7 @@ export default function InventoryPage() {
     toast.success("Group deleted");
   };
 
-  /* ================= ADD ITEM ================= */
+  /* ADD ITEM */
   const addItem = async () => {
     if (!itemName || !selectedGroup) return;
 
@@ -129,7 +129,7 @@ export default function InventoryPage() {
     toast.success("Item added");
   };
 
-  /* ================= EDIT ITEM ================= */
+  /* EDIT ITEM */
   const saveEditItem = async (id: number) => {
     await fetch(`http://localhost:5000/inventory/items/${id}`, {
       method: "PUT",
@@ -152,7 +152,7 @@ export default function InventoryPage() {
     toast.success("Item updated");
   };
 
-  /* ================= DELETE ITEM ================= */
+  /* DELETE ITEM */
   const deleteItem = async (id: number) => {
     if (!confirm("Delete this item?")) return;
 

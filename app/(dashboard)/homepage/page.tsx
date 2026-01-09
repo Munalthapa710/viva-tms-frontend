@@ -15,7 +15,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-/* ================= TYPES ================= */
+/* TYPES */
 interface Employee {
   id: number;
   department: string;
@@ -29,7 +29,7 @@ interface Task {
   emailSent: boolean;
 }
 
-/* ================= API ================= */
+/* API */
 const EMPLOYEE_API = "http://localhost:5000/employees";
 const TASK_API = "http://localhost:5000/tasks";
 
@@ -43,7 +43,7 @@ export default function HomePage() {
 
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  /* ================= FETCH EMPLOYEES ================= */
+  /* FETCH EMPLOYEES */
   useEffect(() => {
     fetch(EMPLOYEE_API)
       .then((res) => res.json())
@@ -68,7 +68,7 @@ export default function HomePage() {
       .catch((err) => console.error("Failed to fetch employees", err));
   }, []);
 
-  /* ================= FETCH TASKS ================= */
+  /* FETCH TASKS */
   useEffect(() => {
     fetch(TASK_API)
       .then((res) => res.json())
@@ -76,7 +76,7 @@ export default function HomePage() {
       .catch((err) => console.error("Failed to fetch tasks", err));
   }, []);
 
-  /* ================= TASK STATS ================= */
+  /* TASK STATS */
   const pendingTasks = tasks.filter((t) => !t.emailSent).length;
   const completedTasks = tasks.filter((t) => t.emailSent).length;
 
@@ -91,7 +91,7 @@ export default function HomePage() {
         Dashboard
       </h1>
 
-      {/* ================= EMPLOYEE COUNTERS ================= */}
+      {/* EMPLOYEE COUNTERS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
         <div className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center">
           <span className="text-gray-400">Total Employees</span>
@@ -113,7 +113,7 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* ================= PIE CHART ================= */}
+      {/* PIE CHART */}
       <div className="bg-white shadow-md rounded-xl p-6 mb-10">
         <h2 className="text-xl font-bold mb-4 text-gray-700">
           Department Workflow
@@ -163,7 +163,7 @@ export default function HomePage() {
           </p>
         </div>
         </div>
-      {/* ================= TASK BAR CHART (NEW) ================= */}
+      {/* TASK BAR CHART (NEW) */}
       <div className="bg-white shadow-md rounded-xl p-6">
         <h2 className="text-xl font-bold mb-4 text-gray-700">
           Task Status Overview

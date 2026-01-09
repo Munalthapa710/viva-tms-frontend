@@ -15,7 +15,7 @@ import {
   FiSquare
 } from "react-icons/fi";
 
-/* ================= SidebarLink ================= */
+/* SidebarLink */
 const SidebarLink = ({
   href,
   icon,
@@ -40,7 +40,7 @@ const SidebarLink = ({
   </Link>
 );
 
-/* ================= Sidebar ================= */
+/* Sidebar */
 const Sidebar = ({
   collapsed,
   setCollapsed,
@@ -126,7 +126,7 @@ const Sidebar = ({
   </aside>
 );
 
-/* ================= LandingLayout ================= */
+/* LandingLayout */
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
@@ -160,7 +160,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
     router.replace("/login");
   };
 
-  /* ================= Loading Spinner ================= */
+  /* Loading Spinner */
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">

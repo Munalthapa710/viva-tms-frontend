@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import toast, { Toaster } from "react-hot-toast";
 
-/* ================= TYPES ================= */
+/* TYPES */
 interface Employee {
   id: number;
   name: string;
@@ -20,7 +20,7 @@ interface Task {
   dueDate: string;
 }
 
-/* ================= CONFIG ================= */
+/* CONFIG */
 const EMPLOYEE_API = "http://localhost:5000/employees";
 
 export default function AssignPage() {
@@ -77,7 +77,7 @@ export default function AssignPage() {
 });
 
 
-  /* ================= FETCH EMPLOYEES ================= */
+  /* FETCH EMPLOYEES */
   useEffect(() => {
     fetch(EMPLOYEE_API)
       .then((res) => res.json())
@@ -85,7 +85,7 @@ export default function AssignPage() {
       .catch(console.error);
   }, []);
 
-  // ================= FETCH TASKS FROM BACKEND =================
+  // FETCH TASKS FROM BACKEND =================
   useEffect(() => {
     fetch("http://localhost:5000/tasks")
       .then((res) => res.json())
@@ -100,19 +100,19 @@ export default function AssignPage() {
       .catch(console.error);
   }, []);
 
-  /* ================= FILTER EMPLOYEE ================= */
+  /* FILTER EMPLOYEE */
   const filteredEmployees = employees.filter((emp) =>
     emp.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  /* ================= SELECT EMPLOYEE ================= */
+  /* SELECT EMPLOYEE */
   const handleSelectEmployee = (emp: Employee) => {
     setNewTask({ ...newTask, employeeId: emp.id.toString() });
     setShowDrawer(true);
     setSearch(emp.name);
   };
 
-  /* ================= SUBMIT TASK ================= */
+  /* SUBMIT TASK */
   const handleSubmit = async () => {
   if (!newTask.title || !newTask.employeeId || !newTask.dueDate) {
     toast.error("All fields are required");
