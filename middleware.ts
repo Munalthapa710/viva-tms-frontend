@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
   const { pathname } = request.nextUrl;
 
-  // If user is NOT logged in and trying to access dashboard
+ 
   if (!token && pathname.startsWith("/homepage") ||
       !token && pathname.startsWith("/employee") ||
       !token && pathname.startsWith("/about")) {
